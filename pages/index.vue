@@ -24,7 +24,6 @@
         >
           <img
             src="~/static/01.jpg"
-            style="width: 200px; height: 200px;"
           >
         </div>
       </div>
@@ -36,7 +35,6 @@
         >
           <img
             src="~/static/02.jpg"
-            style="width: 200px; height: 200px;"
           >
         </div>
       </div>
@@ -48,12 +46,11 @@
         >
           <img
             src="~/static/03.jpg"
-            style="width: 200px; height: 200px;"
           >
         </div>
       </div>
     </div>
-   <!-- <div class="rooms mt-5">
+    <!-- <div class="rooms mt-5">
       <h2>Avalible video rooms</h2>
       <template v-if="apiJitsi">
         <div class="row">
@@ -82,22 +79,23 @@
     >
       Get Info
     </button>-->
-    {{ data }}
-    <div
-      id="meet"
-      class="my-5"
-    >
-      {{ closeMsg }}
-      <button
-        v-if="jitsi"
-        type="button"
-        class="close"
-        aria-label="Close"
-        @click="close"
+    <client-only>
+      <div
+        id="meet"
+        class="my-5"
       >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
+        {{ closeMsg }}
+        <button
+          v-if="jitsi"
+          type="button"
+          class="close"
+          aria-label="Close"
+          @click="close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </client-only>
   </div>
 </template>
 
@@ -148,7 +146,6 @@ export default {
       this.jitsi = true;
       this.roomName = '';
       this.rooms.push(this.apiJitsi);
-      console.log(this.rooms);
     },
 
     close () {
@@ -166,14 +163,8 @@ export default {
       this.jitsi = false;
     },
 
-    getJitsiInfo () {
-      /* this.data = this.apiJitsi.executeCommands({
-        console.log('lol');
-      }); */
-      console.log(this.data);
-    },
-
     createFirstroom () {
+      this.close();
       if (this.apiJitsi === null && this.apiJitsi2 === null && this.apiJitsi3 === null) {
         const domain = 'meet.jit.si';
         const options = {
@@ -190,6 +181,7 @@ export default {
     },
 
     createSecondRoom () {
+      this.close();
       if (this.apiJitsi2 === null && this.apiJitsi === null && this.apiJitsi3 === null) {
         const domain = 'meet.jit.si';
         const options = {
@@ -206,6 +198,7 @@ export default {
     },
 
     createThirdRoom () {
+      this.close();
       if (this.apiJitsi3 === null && this.apiJitsi === null && this.apiJitsi2 === null) {
         const domain = 'meet.jit.si';
         const options = {
@@ -243,5 +236,10 @@ export default {
 
   .video {
     cursor: pointer;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
   }
 </style>
