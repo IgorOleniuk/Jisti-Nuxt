@@ -23,7 +23,7 @@
           @click="createFirstroom"
         >
           <img
-            src="~/static/small_man.jpeg"
+            src="~/static/01.jpg"
             style="width: 200px; height: 200px;"
           >
         </div>
@@ -35,7 +35,7 @@
           @click="createSecondRoom"
         >
           <img
-            src="~/static/room-2.jpeg"
+            src="~/static/02.jpg"
             style="width: 200px; height: 200px;"
           >
         </div>
@@ -47,7 +47,7 @@
           @click="createThirdRoom"
         >
           <img
-            src="~/static/room-3.jpg"
+            src="~/static/03.jpg"
             style="width: 200px; height: 200px;"
           >
         </div>
@@ -155,10 +155,13 @@ export default {
       // this doesn't work now
       if (this.apiJitsi) {
         this.apiJitsi.dispose();
+        this.apiJitsi = null;
       } else if (this.apiJitsi2) {
         this.apiJitsi2.dispose();
+        this.apiJitsi2 = null;
       } else if (this.apiJitsi3) {
         this.apiJitsi3.dispose();
+        this.apiJitsi3 = null;
       }
       this.jitsi = false;
     },
@@ -171,45 +174,51 @@ export default {
     },
 
     createFirstroom () {
-      const domain = 'meet.jit.si';
-      const options = {
-        roomName: 'Room-1',
-        width: '80%',
-        height: '100%',
-        parentNode: document.querySelector('#meet'),
-      };
-      // eslint-disable-next-line no-undef
-      this.apiJitsi = new JitsiMeetExternalAPI(domain, options);
-      this.apiJitsi.executeCommand('subject', 'Room #1');
-      this.jitsi = true;
+      if (this.apiJitsi === null && this.apiJitsi2 === null && this.apiJitsi3 === null) {
+        const domain = 'meet.jit.si';
+        const options = {
+          roomName: 'Room-1',
+          width: '80%',
+          height: '100%',
+          parentNode: document.querySelector('#meet'),
+        };
+        // eslint-disable-next-line no-undef
+        this.apiJitsi = new JitsiMeetExternalAPI(domain, options);
+        this.apiJitsi.executeCommand('subject', 'Room #1');
+        this.jitsi = true;
+      }
     },
 
     createSecondRoom () {
-      const domain = 'meet.jit.si';
-      const options = {
-        roomName: 'Room-2',
-        width: '80%',
-        height: '100%',
-        parentNode: document.querySelector('#meet'),
-      };
-      // eslint-disable-next-line no-undef
-      this.apiJitsi2 = new JitsiMeetExternalAPI(domain, options);
-      this.apiJitsi2.executeCommand('subject', 'Room #2');
-      this.jitsi = true;
+      if (this.apiJitsi2 === null && this.apiJitsi === null && this.apiJitsi3 === null) {
+        const domain = 'meet.jit.si';
+        const options = {
+          roomName: 'Room-2',
+          width: '80%',
+          height: '100%',
+          parentNode: document.querySelector('#meet'),
+        };
+        // eslint-disable-next-line no-undef
+        this.apiJitsi2 = new JitsiMeetExternalAPI(domain, options);
+        this.apiJitsi2.executeCommand('subject', 'Room #2');
+        this.jitsi = true;
+      }
     },
 
     createThirdRoom () {
-      const domain = 'meet.jit.si';
-      const options = {
-        roomName: 'Room-3',
-        width: '80%',
-        height: '100%',
-        parentNode: document.querySelector('#meet'),
-      };
-      // eslint-disable-next-line no-undef
-      this.apiJitsi3 = new JitsiMeetExternalAPI(domain, options);
-      this.apiJitsi3.executeCommand('subject', 'Room #3');
-      this.jitsi = true;
+      if (this.apiJitsi3 === null && this.apiJitsi === null && this.apiJitsi2 === null) {
+        const domain = 'meet.jit.si';
+        const options = {
+          roomName: 'Room-3',
+          width: '80%',
+          height: '100%',
+          parentNode: document.querySelector('#meet'),
+        };
+        // eslint-disable-next-line no-undef
+        this.apiJitsi3 = new JitsiMeetExternalAPI(domain, options);
+        this.apiJitsi3.executeCommand('subject', 'Room #3');
+        this.jitsi = true;
+      }
     },
   },
 };
