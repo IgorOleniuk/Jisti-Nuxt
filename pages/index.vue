@@ -1,7 +1,7 @@
 <template>
-  <div class="container text-center mt-3">
+  <div class="container text-center mt-5">
     <h1>Jitsi in nuxt</h1>
-    <div class="d-flex justify-content-center mt-5">
+    <!--<div class="d-flex justify-content-center mt-5">
       <input
         v-model="roomName"
         type="text"
@@ -14,33 +14,74 @@
       >
         Open room
       </button>
+    </div>-->
+    <div class="row mt-5">
+      <div class="col-4">
+        <h4>Room #1</h4>
+        <div
+          class="video"
+          @click="createFirstroom"
+        >
+          <img
+            src="~/static/small_man.jpeg"
+            style="width: 200px; height: 200px;"
+          >
+        </div>
+      </div>
+      <div class="col-4">
+        <h4>Room #2</h4>
+        <div
+          class="video"
+          @click="createSecondRoom"
+        >
+          <img
+            src="~/static/room-2.jpeg"
+            style="width: 200px; height: 200px;"
+          >
+        </div>
+      </div>
+      <div class="col-4">
+        <h4>Room #3</h4>
+        <div
+          class="video"
+          @click="createThirdRoom"
+        >
+          <img
+            src="~/static/room-3.jpg"
+            style="width: 200px; height: 200px;"
+          >
+        </div>
+      </div>
     </div>
-    <div class="rooms mt-5">
+   <!-- <div class="rooms mt-5">
       <h2>Avalible video rooms</h2>
       <template v-if="apiJitsi">
-        <ul
-          v-for="(room, index) in rooms"
-          :key="index"
-        >
-          <li>
+        <div class="row">
+          <div
+            v-for="(room, index) in rooms"
+            :key="index"
+            class="col-3"
+          >
             <a
-              href="#"
+              :href="room._url"
               target="_blank"
             >
-              Room
-              {{ room._url }}
+              <img
+                style="width: 100px; height: 100px;"
+                src="~/static/small_man.jpeg"
+              >
             </a>
-          </li>
-        </ul>
+          </div>
+        </div>
       </template>
       <p v-else>Here is not any avalible video rooms</p>
-    </div>
-    <button
+    </div>-->
+    <!--<button
       class="btn btn-dark"
       @click="getJitsiInfo"
     >
       Get Info
-    </button>
+    </button>-->
     {{ data }}
     <div
       id="meet"
@@ -67,11 +108,19 @@ export default {
       jitsi: false,
       roomName: '',
       apiJitsi: null,
+      apiJitsi2: null,
+      apiJitsi3: null,
       rooms: [],
       closeMsg: '',
       data: null,
     };
   },
+
+  /* mounted () {
+    this.createFirstroom();
+    this.createSecondRoom();
+    this.createThirdRoom();
+  }, */
 
   methods: {
     connectToJitsi () {
@@ -82,7 +131,7 @@ export default {
         height: '100%',
         interfaceConfigOverwrite: {
           TOOLBAR_BUTTONS: [
-            'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen', 'hangup', 'settings',
+            'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen', 'hangup', 'settings', 'info',
           ],
           SHOW_WATERMARK_FOR_GUESTS: true,
           SHOW_BRAND_WATERMARK: false,
@@ -104,10 +153,14 @@ export default {
 
     close () {
       // this doesn't work now
-      this.apiJitsi.dispose();
+      if (this.apiJitsi) {
+        this.apiJitsi.dispose();
+      } else if (this.apiJitsi2) {
+        this.apiJitsi2.dispose();
+      } else if (this.apiJitsi3) {
+        this.apiJitsi3.dispose();
+      }
       this.jitsi = false;
-      this.roomName = '';
-      this.closeMsg = 'You\'ve finished your video meeting.';
     },
 
     getJitsiInfo () {
@@ -115,6 +168,48 @@ export default {
         console.log('lol');
       }); */
       console.log(this.data);
+    },
+
+    createFirstroom () {
+      const domain = 'meet.jit.si';
+      const options = {
+        roomName: 'Room-1',
+        width: '80%',
+        height: '100%',
+        parentNode: document.querySelector('#meet'),
+      };
+      // eslint-disable-next-line no-undef
+      this.apiJitsi = new JitsiMeetExternalAPI(domain, options);
+      this.apiJitsi.executeCommand('subject', 'Room #1');
+      this.jitsi = true;
+    },
+
+    createSecondRoom () {
+      const domain = 'meet.jit.si';
+      const options = {
+        roomName: 'Room-2',
+        width: '80%',
+        height: '100%',
+        parentNode: document.querySelector('#meet'),
+      };
+      // eslint-disable-next-line no-undef
+      this.apiJitsi2 = new JitsiMeetExternalAPI(domain, options);
+      this.apiJitsi2.executeCommand('subject', 'Room #2');
+      this.jitsi = true;
+    },
+
+    createThirdRoom () {
+      const domain = 'meet.jit.si';
+      const options = {
+        roomName: 'Room-3',
+        width: '80%',
+        height: '100%',
+        parentNode: document.querySelector('#meet'),
+      };
+      // eslint-disable-next-line no-undef
+      this.apiJitsi3 = new JitsiMeetExternalAPI(domain, options);
+      this.apiJitsi3.executeCommand('subject', 'Room #3');
+      this.jitsi = true;
     },
   },
 };
@@ -135,5 +230,9 @@ export default {
     position: absolute;
     top: -1%;
     right: 8%;
+  }
+
+  .video {
+    cursor: pointer;
   }
 </style>
