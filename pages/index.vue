@@ -121,7 +121,7 @@ export default {
   }, */
 
   methods: {
-    connectToJitsi () {
+    /* connectToJitsi () {
       const domain = 'meet.jit.si';
       const options = {
         roomName: this.roomName,
@@ -146,7 +146,7 @@ export default {
       this.jitsi = true;
       this.roomName = '';
       this.rooms.push(this.apiJitsi);
-    },
+    }, */
 
     close () {
       // this doesn't work now
@@ -171,6 +171,7 @@ export default {
           roomName: 'Room-1',
           width: '80%',
           height: '100%',
+          interfaceConfigOverwrite: { DEFAULT_BACKGROUND: '#4169E1' },
           parentNode: document.querySelector('#meet'),
         };
         // eslint-disable-next-line no-undef
@@ -188,6 +189,7 @@ export default {
           roomName: 'Room-2',
           width: '80%',
           height: '100%',
+          interfaceConfigOverwrite: { DEFAULT_BACKGROUND: '#4169E1' },
           parentNode: document.querySelector('#meet'),
         };
         // eslint-disable-next-line no-undef
@@ -205,6 +207,7 @@ export default {
           roomName: 'Room-3',
           width: '80%',
           height: '100%',
+          interfaceConfigOverwrite: { DEFAULT_BACKGROUND: '#4169E1' },
           parentNode: document.querySelector('#meet'),
         };
         // eslint-disable-next-line no-undef
